@@ -134,19 +134,24 @@ module.exports = function(grunt) {
 			}
 
 			if(statsOptions) {
-				grunt.log.notverbose.writeln(stats.toString(grunt.util.merge({
-					colors: true,
-					hash: false,
-					timings: false,
-					assets: true,
-					chunks: false,
-					chunkModules: false,
-					modules: false,
-					children: true
-				}, statsOptions)));
-				grunt.verbose.writeln(stats.toString(grunt.util.merge({
-					colors: true
-				}, statsOptions)));
+				if(typeof statsOptions === "string" || typeof statsOptions === "boolean") {
+					grunt.log.notverbose.writeln(stats.toString(statsOptions));
+					grunt.verbose.writeln("verbose")
+				} else {
+					grunt.log.notverbose.writeln(stats.toString(grunt.util.merge({
+						colors: true,
+						hash: false,
+						timings: false,
+						assets: true,
+						chunks: false,
+						chunkModules: false,
+						modules: false,
+						children: true
+					}, statsOptions)));
+					grunt.verbose.writeln(stats.toString(grunt.util.merge({
+						colors: true
+					}, statsOptions)));
+				}
 			}
 			if(typeof storeStatsTo === "string") {
 				grunt.config.set(storeStatsTo, stats.toJson());
